@@ -1,0 +1,48 @@
+spring:
+  freemarker: # freemarker
+    request-context-attribute: request
+    suffix: .ftl
+    content-type: text/html
+    charset: UTF-8
+    allow-request-override: false
+    cache: false
+    check-template-location: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+  redis: # redis
+    database: 0
+    host: localhost
+    password:
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+    timeout: 300s
+  mail: #QQ邮箱配置
+    username: class.mwp@foxmail.com
+    password: 123123
+    default-encoding: UTF-8
+    port: 587
+    host: smtp.qq.com
+  profiles:
+    active: service
+# project
+server:
+  servlet:
+    context-path: /xxian
+  port: 8080
+
+excel:
+  path: D:/slssx_upload
+
+#配置shiro使用redis的账号信息
+spring-shiro-redis:
+#  password: redis_root #redis密码
+  password: Password@123 #线上redis密码
+  host: 127.0.0.1 #redis ip地址
+  port: 6379 #端口
+session-shiro:
+  # Session超时时间（默认30分钟）
+  expireTime: 120

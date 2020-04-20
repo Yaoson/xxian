@@ -1,0 +1,33 @@
+spring:
+#  redis: # redis
+#    database: 0
+#    host: localhost
+#    password:
+#    jedis:
+#      pool:
+#        max-idle: 8
+#        max-wait: -1ms
+#        max-active: 8
+#    timeout: 300s
+  mail: #QQ邮箱配置
+    username: class.mwp@foxmail.com
+    password: 123123123
+    default-encoding: UTF-8
+    port: 587
+    host: smtp.qq.com
+  profiles:
+    active: service
+    #放到外部tamcat下跑多个springboot项目需要添加该配置
+  jmx:
+    enabled: false
+
+# project
+server:
+  servlet:
+    context-path: /xxian-app
+  port: 8081
+
+##上传图片虚拟路径配置
+#upload:
+#  prefix : ""
+#  disk:

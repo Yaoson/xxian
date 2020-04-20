@@ -1,0 +1,74 @@
+# mysql
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+#    url: jdbc:mysql://localhost:3306/slssx?serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8&useSSL=true #本地
+    url: jdbc:mysql://localhost:3306/slssx?serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8&useSSL=true #线上
+    username: root
+    password: 484911 #本地
+    druid:
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      #rides配置
+  redis:
+#    password: redis_root #redis密码
+    password: Password@123 #线上redis密码
+    host: 127.0.0.1 #redis ip地址
+    port: 6379 #端口
+#      jedis:
+#        pool:
+#          #最大连接数据库连接数,设 0 为没有限制
+#          max-active: 8
+#          #最大等待连接中的数量,设 0 为没有限制
+#          max-idle: 8
+#          #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+#          max-wait: -1ms
+#          #最小等待连接中的数量,设 0 为没有限制
+#          min-idle: 0
+  #配置文件上传大小
+  servlet:
+    multipart:
+      #单个文件大小
+      max-file-size: 10MB
+      #总上传数据大小
+      max-request-size: 100MB
+
+
+
+# mybatis
+mybatis-plus:
+  mapperLocations: classpath*:mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+  configuration:
+    #log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    use-column-label: true
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.yd.slssx.service: debug

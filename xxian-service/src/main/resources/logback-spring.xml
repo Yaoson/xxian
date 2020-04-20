@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="app_name" value="slssx-service" />
+<!--    <property name="root_dir" value="D:/opt/logs" />-->
+    <property name="root_dir" value="/usr/local/programfiles/opt/logs" />
+    <!-- 日志备份目录 -->
+    <property name="backup_home" value="${root_dir}/backup" />
+    <!-- 日志文件最小切割单位 值不做强制要求，建议300MB -->
+    <property name="every_file_size" value="300MB" />
+    <property name="log_charset" value="UTF-8" />
+    <property name="log_pattern" value="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
+    <contextName>${app_name}</contextName>
+
+    <!-- 日志事件输出的组件  ConsoleAppender：控制台，RollingFileAppender:文件-->
+    <!-- 标准输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                ${log_pattern}
+            </Pattern>
+        </layout>
+    </appender>
+    <!-- error输出 -->
+    <appender name="ErrorAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${root_dir}/${app_name}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${root_dir}/${app_name}/%d{yyyy-MM-dd}-error[%i].log
+            </fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${every_file_size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                ${log_pattern}
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!-- info输出 -->
+    <appender name="InfoAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${root_dir}/${app_name}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${root_dir}/${app_name}/%d{yyyy-MM-dd}-info[%i].log
+            </fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${every_file_size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                ${log_pattern}
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 打印info级别以上日志 -->
+            <level>INFO</level>
+        </filter>
+    </appender>
+    <!-- SQL输出 -->
+    <appender name="SQLAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${root_dir}/${app_name}/dao.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${root_dir}/${app_name}/%d{yyyy-MM-dd}-dao[%i].log
+            </fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${every_file_size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                ${log_pattern}
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- SQL -->
+    <logger level="debug" name="com.yd.mall.admin">
+        <appender-ref ref="SQLAppender" />
+    </logger>
+    <logger level="debug" name="com.alibaba">
+        <appender-ref ref="SQLAppender" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="InfoAppender" />
+        <appender-ref ref="ErrorAppender" />
+    </root>
+
+</configuration>
