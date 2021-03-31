@@ -81,7 +81,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId> <!-- google工具 -->
-            <version>27.0.1-jre</version>
+            <version>29.0-jre</version>
         </dependency>
         <dependency>
             <groupId>net.coobird</groupId>
